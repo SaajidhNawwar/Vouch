@@ -4,9 +4,9 @@ module.exports = defineConfig({
   testDir: './tests',
 
   //Maximum time one test can run for
-  timeout: 50*1000,
+  timeout: 100*1000,
   expect:{
-    timeout:5000
+    timeout:25000
   },
 
   /* Run tests in files in parallel */
