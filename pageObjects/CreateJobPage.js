@@ -5,7 +5,7 @@ class CreateJobPage
         this.page = page;
         this.viewAllJobsBtn = page.locator("//span[text()='Jobs']");
         this.createJobBtn = page.locator("//button[text()='Create a job']");
-        this.jobAdTitle = page.locator("#title");
+        this.jobAdTitle = page.locator("#title");   //# is used to capture by id
         this.jobAdDescription = page.locator("div[role='textbox']")
         
         this.seniorityDropdown = page.getByPlaceholder("Select seniority");
@@ -23,6 +23,18 @@ class CreateJobPage
         this.locationsDropdown = page.locator("(//div[contains(@class,'react-dropdown-select-content react-dropdown-select-type-multi')])[3]");
         this.selectColombo = page.locator("//label[text()='Colombo']");
         this.closeLocationDropdown = page.locator("//div[contains(text(),'Locations')]");
+
+        this.goToCompensationAndBenefits = page.locator("//p[contains(text(),'Compensation')]");
+        this.enableCompensation = page.locator("input[name='compensationCheck']"); //capture by name 
+        this.clickCurrencyDropdown = page.locator("//p[normalize-space()='Select currency']");
+        this.selectSEK = page.locator("//li[normalize-space()='SEK']");
+        this.enterMinSalary = page.locator("#minSalary");
+        this.enterMaxSalary = page.locator("#maxSalary");
+        
+        this.enableCompanyBenefits = page.locator("input[name='companyBenefitsCheck']");
+        this.selectPaidVacation = page.locator("//label[contains(text(),'Paid vacation')]");
+        this.selectHRCourses = page.locator("//label[contains(text(),'HR Courses')]")
+        
     }
 
     async enterGeneralInformation(jobAd,jobDescription)
@@ -50,7 +62,26 @@ class CreateJobPage
         await this.locationsDropdown.pressSequentially("Col");
         await this.selectColombo.click();
         await this.closeLocationDropdown.click();
+        
+    }
+
+    async enterCompensationAndBenefits(minSalary,maxSalary)
+    {
+        await this.goToCompensationAndBenefits.click();
+        await this.enableCompensation.check();
+        await this.clickCurrencyDropdown.click();
+        await this.selectSEK.click();
+        await this.enterMinSalary.fill(minSalary);
+        await this.enterMaxSalary.fill(maxSalary);
+        await this.enableCompanyBenefits.check();
+        await this.selectPaidVacation.check();
+        await this.selectHRCourses.check();
         await this.page.pause();
+    }
+
+    async selectReferralBonus()
+    {
+        
     }
 
 }

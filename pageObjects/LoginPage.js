@@ -1,3 +1,6 @@
+const {expect} = require('@playwright/test');
+
+
 class LoginPage
 {
     constructor(page)
@@ -19,6 +22,7 @@ class LoginPage
         await this.password.fill(password);
         await this.signIn.click();
         await this.page.waitForLoadState('networkidle');
+        //await expect(this.page.locator("//p[contains(@class,'mt-2 text-white')]")).toHaveText('How Vouch works in 3 easy steps');
     }
 }
 module.exports = {LoginPage};
