@@ -93,11 +93,12 @@ class CreateJobPage {
         await this.goToReferralBonus.click();
         await this.openDropdown.click();
         await this.chooseReferralAmount.click();
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(1500);
     }
 
     async reviewAndPublish() {
         await this.reviewPage.click();
+        await this.page.pause();
         await this.BtnFinish.click();
         await expect(this.page.locator("//p[text()='Job ad created!']")).toBeVisible();
     }
