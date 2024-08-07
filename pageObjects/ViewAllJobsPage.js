@@ -24,7 +24,11 @@ class ViewAllJobsPage{
         await this.page.waitForLoadState('networkidle');
         await this.copyLinkIcon.click();
         await this.copyLink.click();
-        await this.page.waitForTimeout(4000);
+        await this.page.waitForTimeout(1000);
+
+        //Copy the link to clipboard
+        const jobLink = await this.page.evaluate(() => navigator.clipboard.readText());
+        return jobLink;
     }
      
 }

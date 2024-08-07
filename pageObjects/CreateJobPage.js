@@ -45,6 +45,10 @@ class CreateJobPage {
         this.BtnFinish = page.getByRole('button', { name: 'Finish' });
         this.viewAllJobs = page.locator("//span[text()='Jobs']");
         this.jobTitles = page.locator("(//p[@class='leading-6 break-words text-primary-600 text-lg font-bold md:body-large-semibold'])").first();
+        this.empKusal = page.locator("//p[normalize-space()='Kusal Mendis']");
+        this.empMike = page.locator("//p[normalize-space()='Mike Chapman']");
+        this.empSaajidh = page.locator("//p[normalize-space()='Saajidh Employee']");
+        this.BtnNotify = page.locator("button.bg-primary-500");
     }
 
     async enterGeneralInformation(jobAd, jobDescription) {
@@ -101,6 +105,16 @@ class CreateJobPage {
         await this.page.pause();
         await this.BtnFinish.click();
         await expect(this.page.locator("//p[text()='Job ad created!']")).toBeVisible();
+    }
+
+    async notifyEmployees() {
+        await this.empKusal.click();
+        await this.empMike.click();
+        await this.empSaajidh.click();
+        await this.BtnNotify.click();
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForTimeout(1000);
+        await this.viewAllJobs.click();
     }
 
 }

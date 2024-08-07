@@ -5,7 +5,7 @@ const dataset = require('../Utils/createJobTestData.json');
 
 for (const data of dataset) {
     createJobTest(data);
-    shareJobAd(data);
+    //shareJobAd(data);
 }
 
 function createJobTest(data) {
@@ -25,6 +25,7 @@ function createJobTest(data) {
             await createJobPage.enterCompensationAndBenefits(data.minSalary, data.maxSalary);
             await createJobPage.selectReferralBonus();
             await createJobPage.reviewAndPublish();
+            await createJobPage.notifyEmployees();
 
             // Verify Job
             const viewAllJobsPage = poManager.getViewAllJobsPage();
@@ -38,6 +39,7 @@ function createJobTest(data) {
 function shareJobAd(data) {
     test.describe('Generate job ad link', ()=> {
         let poManager;
+        let jobAdLink;
 
         test.beforeEach(async ({ page }) => {
             poManager = new POManager(page);
@@ -46,12 +48,25 @@ function shareJobAd(data) {
             await loginPage.validLogin(data.username, data.password);
         });
 
-        test('Should open copy the link and open', async({page})=> {
+        test('Should copy the job link and open in a new context', async({page,browser})=> {
             const viewAllJobsPage = poManager.getViewAllJobsPage();
-            await viewAllJobsPage.generateJobAdLink();
+            jobAdLink = await viewAllJobsPage.generateJobAdLink();
+            console.log("Job Link: ",jobAdLink);
+
+            //Verify jobLink is present
+            if(!jobAdLink) {
+                throw new Error('JobLink is not captured');
+            }
+ 
+            //Open a new window and navigate to copied job link
+            const context = await browser.newContext();
+            const newPage = await context.newPage();
+            await newPage.goto(jobAdLink);
+            await newPage.waitForLoadState('networkidle');
+            await newPage.waitForTimeout(2500);
         })
-    })
-
-
+    }) 
 }
+
+
 

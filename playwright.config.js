@@ -20,19 +20,42 @@ module.exports = defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  
-  use: {
-    browserName : 'chromium',
-    headless : false,
-    screenshot : 'on',
-    trace: 'on-first-retry',
-    ...devices['Desktop Chrome'],
+
+  projects: [
+    {
+      name: 'chromium',
+      use: {
+        browserName: 'chromium',
+        headless: false,
+        screenshot: 'on',
+        trace: 'on-first-retry',
+        ...devices['Desktop Chrome'],
         deviceScaleFactor: undefined,
         viewport: null,
         launchOptions: {
           args: ['--start-maximized']
         },
-  },
+      },
+    },
+    {
+      name: 'firefox',
+      use: {
+        browserName: 'firefox',
+        headless: false,
+        screenshot: 'on',
+        trace: 'on-first-retry',
+        ...devices['Desktop Firefox'],
+        deviceScaleFactor: undefined,
+        viewport: {
+          width: 1536,
+          height: 725
+        },
+        launchOptions: {
+          args: []
+        },
+      },
+    },
+  ]
 
 });
 
