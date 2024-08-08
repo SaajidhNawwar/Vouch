@@ -5,6 +5,8 @@
         "jobTitle" : "Software Engineer",
         "jobDescription" : "Ascentic is on the lookout for Software Engineers to join them. Feel free to apply at hello@ascentic.se",
         "minSalary" : "10000",
-        "maxSalary" : "15000"
+        "maxSalary" : "15000",
+        "linkedInUsername" : "saajidh.nawwar@ascentic.se",
+        "linkedInPassword" : "Saaj@asc123"
     }
 ]

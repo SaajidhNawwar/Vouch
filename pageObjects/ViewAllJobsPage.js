@@ -1,7 +1,6 @@
-class ViewAllJobsPage{
-    
-    constructor(page)
-    {
+class ViewAllJobsPage {
+
+    constructor(page) {
         this.page = page;
         this.viewJobs = page.locator("//span[text()='Jobs']");
         this.jobTitleLocator = page.locator("(//p[@class='leading-6 break-words text-primary-600 text-lg font-bold md:body-large-semibold'])");
@@ -18,7 +17,7 @@ class ViewAllJobsPage{
     }
 
     async generateJobAdLink() {
-        await this.viewJobs.click(); 
+        await this.viewJobs.click();
         await this.jobTitle.hover();
         await this.shareBtn.click();
         await this.page.waitForLoadState('networkidle');
@@ -30,6 +29,6 @@ class ViewAllJobsPage{
         const jobLink = await this.page.evaluate(() => navigator.clipboard.readText());
         return jobLink;
     }
-     
+
 }
-module.exports = {ViewAllJobsPage};
+module.exports = { ViewAllJobsPage };

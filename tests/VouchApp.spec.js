@@ -1,11 +1,11 @@
-const {test,expect} = require('@playwright/test');
-const {POManager} = require('../pageObjects/POManager');
+const { test, expect } = require('@playwright/test');
+const { POManager } = require('../pageObjects/POManager');
 const dataset = require('../Utils/createJobTestData.json');
 
 
 for (const data of dataset) {
-    createJobTest(data);
-    //shareJobAd(data);
+    //createJobTest(data);
+    recommendACandidate(data);
 }
 
 function createJobTest(data) {
@@ -36,8 +36,8 @@ function createJobTest(data) {
     });
 }
 
-function shareJobAd(data) {
-    test.describe('Generate job ad link', ()=> {
+function recommendACandidate(data) {
+    test.describe('Generate job ad link', () => {
         let poManager;
         let jobAdLink;
 
@@ -48,24 +48,32 @@ function shareJobAd(data) {
             await loginPage.validLogin(data.username, data.password);
         });
 
-        test('Should copy the job link and open in a new context', async({page,browser})=> {
+        test('Should copy the job link and open in a new context', async ({ page, browser }) => {
             const viewAllJobsPage = poManager.getViewAllJobsPage();
             jobAdLink = await viewAllJobsPage.generateJobAdLink();
-            console.log("Job Link: ",jobAdLink);
+            console.log("Job Link: ", jobAdLink);
 
             //Verify jobLink is present
-            if(!jobAdLink) {
+            if (!jobAdLink) {
                 throw new Error('JobLink is not captured');
             }
- 
+
             //Open a new window and navigate to copied job link
             const context = await browser.newContext();
             const newPage = await context.newPage();
             await newPage.goto(jobAdLink);
             await newPage.waitForLoadState('networkidle');
-            await newPage.waitForTimeout(2500);
+            await newPage.waitForTimeout(1000);
+
+            //Perform LinkedIn login in new tab
+            const voucherPage = new POManager(newPage).getVoucherPage();
+            console.log('Performing LinkedIn login with:', data.linkedInUsername, data.linkedInPassword);
+            await voucherPage.loginToLinkedIn(data.linkedInUsername, data.linkedInPassword);
+
+            //Enter Candidate Details
+            await voucherPage.recommendCandidate();
         })
-    }) 
+    })
 }
 
 

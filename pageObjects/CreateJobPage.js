@@ -1,25 +1,23 @@
 const { expect } = require('@playwright/test');
-const dataset = require('../Utils/createJobTestData.json');
 
 class CreateJobPage {
-    constructor(page) 
-    {
+    constructor(page) {
         this.page = page;
         this.viewAllJobsBtn = page.locator("//span[text()='Jobs']");
         this.createJobBtn = page.locator("//button[text()='Create a job']");
         this.jobAdTitle = page.locator("#title");
         this.jobAdDescription = page.locator("div[role='textbox']")
 
-        this.seniorityDropdown = page.getByPlaceholder("Select seniority");
+        this.seniorityDropdown = page.locator("(//div[contains(@class,'react-dropdown-select-content react-dropdown-select-type-multi')])[1]");
         this.selectSeniority = page.locator("//label[text()='Senior']");
-        this.closeSeniorityDropdown = page.locator("//p[normalize-space()='Seniority']");
+        this.closeSeniorityDropdown = page.locator("(//p[@class='body-large-semibold'])[1]");
 
         this.industryDropdown = page.getByPlaceholder("Search or add a new industry");
         this.selectITIndustry = page.locator("input[id='9']");
         this.closeIndustryDropdown = page.locator("//p[normalize-space()='Industry']");
 
         this.remoteStatusDropdown = page.locator("//div[contains(@class,'grow pl-2.5')]");
-        this.selectHybridRemote = page.locator("//li[text()='Hybrid remote']");
+        this.selectHybridRemote = page.locator("(//li[contains(@class,'list-none')])[2]");
         this.closeRemoteStatusDropdown = page.locator("//div[text()='Remote status']");
 
         this.locationsDropdown = page.locator("(//div[contains(@class,'react-dropdown-select-content react-dropdown-select-type-multi')])[3]");

@@ -1,10 +1,7 @@
-const {expect} = require('@playwright/test');
+const { expect } = require('@playwright/test');
 
-
-class LoginPage
-{
-    constructor(page)
-    {
+class LoginPage {
+    constructor(page) {
         this.page = page;
         this.userName = page.locator("#email");
         this.password = page.locator("#password")
@@ -12,13 +9,11 @@ class LoginPage
         this.expectedText = "Let’s create a job";
     }
 
-    async goTo()
-    {
+    async goTo() {
         await this.page.goto("https://test.recruit.vouch.global");
     }
 
-    async validLogin(username,password)
-    {
+    async validLogin(username, password) {
         await this.userName.fill(username);
         await this.password.fill(password);
         await this.signIn.click();
@@ -28,7 +23,7 @@ class LoginPage
             const actualText = await this.page.locator("//div[@class='flex items-center justify-center gap-2']").textContent();
             if (actualText === this.expectedText) {
                 console.log('Expected and actual text are same');
-            } 
+            }
             else {
                 console.log('Expected and actual text are not the same');
             }
@@ -37,4 +32,4 @@ class LoginPage
         }
     }
 }
-module.exports = {LoginPage};
+module.exports = { LoginPage };
